@@ -44,7 +44,8 @@ input_size = X.shape[1]
 
 # Instantiate the perceptron model.
 model = Perceptron(input_size)
-# Save the trained model.
+
+# Load the trained model.
 print(f"\nDEBUG: Loading trained model '{model_file_path}' ...")
 model.load(model_file_path)
 print(f"INFO: Model loaded successfully. Weights: {model.weights} (w0 is bias weight)")
