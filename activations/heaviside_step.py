@@ -1,8 +1,13 @@
+"""
+@Author: DAShaikh10
+"""
+
 class HeavisideStepActivation:
     """
     Implements the Heaviside step function.
 
-    `f(x) = 1 if x >= 0, 0 if x < 0`
+    `f(x) = 1 if x >= 0`
+    `f(x) = 0 if x < 0`
 
     ![](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Dirac_distribution_CDF.svg/300px-Dirac_distribution_CDF.svg.png)
     """
@@ -16,7 +21,7 @@ class HeavisideStepActivation:
             x (float): The input value (e.g., weighted sum).
 
         Returns:
-            int: 0 or 1.
+            float: 0. or 1.
         """
 
         return float(x >= 0.0)
