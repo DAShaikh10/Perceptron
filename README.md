@@ -1,7 +1,9 @@
 # Single Perceptron Model
 
-A simplistic implementation of single perceptron, trainable with Perceptron Learning Aglorithm (PLA).
-This is a very basic implementation which uses primitive _(Heaviside)_ step activation function and a very simple loss function.
+A simplistic implementation of a perceptron, trainable with **Perceptron Learning Aglorithm** _(PLA)_.
+This is a very basic implementation which uses primitive _(Heaviside)_ **step activation function** and a very simple loss function.
+
+The perceptron was originally introduced by **Frank Rosenblatt** in his research paper: ["The perceptron: A probabilistic model for information storage and organization in the brain."](https://psycnet.apa.org/doiLanding?doi=10.1037/h0042519) and later refined by **Marvin Minsky** and **Seymour Papert** in ["Perceptrons : an introduction to computational geometry"](https://archive.org/details/perceptronsintro00mins)
 
 <div align="center">
 
@@ -19,19 +21,19 @@ This is a very basic implementation which uses primitive _(Heaviside)_ step acti
 
 ## Explaination
 
-The perceptron implemention follows the explaination from the [CS6910/CS7015 - Deep Learning Course](https://www.cse.iitm.ac.in/~miteshk/CS6910.html) lectures _(L1, L2)_ by [Prof. Mitesh M. Khapra](https://www.cse.iitm.ac.in/~miteshk/)
+The perceptron implemention follows the explaination from [CS6910/CS7015 - Deep Learning Course](https://www.cse.iitm.ac.in/~miteshk/CS6910.html) lectures _(L1, L2)_ by [Prof. Mitesh M. Khapra](https://www.cse.iitm.ac.in/~miteshk/)
 
 I recommend checking out his lectures!
 
 ### Dataset
 
-Since, using a single perceptron it is possible to represent linearly separable functions, we use examples from our boolean world which are linearly separable except for the `XOR` and `XNOR` datasets which are not linearly separable!
+Since, using a single perceptron it is only possible to represent linearly separable functions, we use examples from the boolean world which are linearly separable except for the `XOR` and `XNOR` datasets which are not linearly separable!
 
 ### Algorithm
 
 ![PLA](assets/pla-algorithm.png)
 
-Above is the (rough) mathematical representation of the algorithm. [Reference](https://iitm-pod.slides.com/arunprakash_ai/cs6910-lecture-2/fullscreen#/0/36/8)
+Above is the (theoretical) mathematical representation of the algorithm. [Reference](https://iitm-pod.slides.com/arunprakash_ai/cs6910-lecture-2/fullscreen#/0/36/8)
 
 In essense,  
 To represent / learn a linearly separable function with _2_ boolean input features and _1_ boolean output.  
@@ -40,7 +42,7 @@ We can ...
 ### 1. Initialization: Weights and the Bias Term
 
 In the formula of the weighted sum i.e. ($\sum_{i=0}^{n} w_i * x_i$), the sum starts from $i=0$. This $i=0$ term
-represents the **bias** (or threshold).
+represents the **bias** (or threshold) and represents the prior prejudice.
 
 We define set `P` as all the inputs in the dataset for which the expected output is **1** and vice-versa as the set `N`.
 
@@ -50,7 +52,7 @@ Thus,
 - **Weights Vector `w`:** This vector will therefore have 3 corresponding weights: $w = [w_0, w_1, w_2]$.
 - **Initialization:** We initialize `w` randomly. For example, `w` could start as `[0, 0, 0]` or small random values.
 
-The term $w_0$ (the bias) is crucial. It allows the separating line to not have to pass through the origin (0,0), making it possible to solve problems like a simple AND gate.
+The term $w_0$ (the bias) is crucial. It allows the separating line to not have to pass through the origin (0,0), making it possible to solve problems like a simple AND gate. In other words it is the y-intercept.
 
 ---
 
@@ -66,7 +68,7 @@ It picks one random input vector `x` from the entire dataset (`P` $\cup$ `N`).
 
 It calculates the **weighted sum**, also called the _activation_ or _net input_. Let's call it $a$:
 
-$$a = \sum_{i=0}^{n} w_i * x_i = \mathbf{w} \cdot \mathbf{x}$$
+$$a = \sum_{i=0}^{n} w_i * x_i = \mathbf{w} \cdot \mathbf{x} = \mathbf{w}^{\top} \mathbf{x}$$
 
 In our 2-input case, this is:
 $a = (w_0 * x_0) + (w_1 * x_1) + (w_2 * x_2)$
@@ -108,7 +110,7 @@ The loop continues this process of picking a random point, checking for an error
 
 **Convergence** is achieved when the algorithm can pass through the _entire_ dataset, one input at a time, and make **zero corrections**. This means:
 
-- Every input `x` in `P` results in a weighted sum $a \ge 0$.
+- Every input `x` in `P` results in a weighted sum $a \ge 0$. _(Preferrably $a > 0$ which indicates clear bifurcation)_
 - Every input `x` in `N` results in a weighted sum $a < 0$.
 
 Once this happens, the loop condition `!convergence` becomes false, and the algorithm terminates. The final vector `w` now defines the parameters of a line ($w_0 + w_1*x_1 + w_2*x_2 = 0$) that perfectly separates the positive and negative data points.
