@@ -2,6 +2,9 @@
 @Author: DAShaikh10
 """
 
+import numpy as np
+
+
 class HeavisideStepActivation:
     """
     Implements the Heaviside step function.
@@ -13,15 +16,15 @@ class HeavisideStepActivation:
     """
 
     @staticmethod
-    def activate(x: float) -> float:
+    def activate(x: np.int8) -> np.uint8:
         """
         Applies the Heaviside step function.
 
         Args:
-            x (float): The input value (e.g., weighted sum).
+            x (np.int8): The input value (e.g., weighted sum).
 
         Returns:
-            float: 0. or 1.
+            np.uint8: 0 or 1.
         """
 
-        return float(x >= 0.0)
+        return np.uint8(x >= 0)

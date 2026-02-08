@@ -2,6 +2,7 @@
 @Author: DAShaikh10
 """
 
+import sys
 import argparse
 
 import numpy as np
@@ -9,6 +10,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from models import Perceptron
+
 
 # Read the command-line arguments.
 argparser = argparse.ArgumentParser(
@@ -44,13 +46,13 @@ try:
     data = pd.read_csv(data_file_path)
 except FileNotFoundError:
     print(f"ERROR: Data file '{data_file_path}' not found.")
-    exit()
+    sys.exit()
 
 print(f"INFO: Dataset loaded. Shape: {data.shape}")
 
 # Separate features (X) and labels (y).
-X = data.drop("y", axis=1).to_numpy(dtype=np.float16)  # Drop the label column to get the features.
-y = data["y"].to_numpy(dtype=np.float16)  # Get the label column.
+X = data.drop("y", axis=1).to_numpy(dtype=np.int8)  # Drop the label column to get the features.
+y = data["y"].to_numpy(dtype=np.int8)  # Get the label column.
 
 input_size = X.shape[1]
 
@@ -80,15 +82,15 @@ model.fit(X, y, epochs=epochs, verbose=verbose)
 print(f"\nDEBUG: Weights: {model.weights} (w0 is bias weight)")
 
 # Test the model.
-print(f"\nINFO: Testing on all data ...")
-correct_count = 0
+print(r"\nINFO: Testing on all data ...")
+CORRECT_COUNT = 0
 for inputs, label in zip(X, y):
     prediction = model.predict(inputs)
     if label == prediction:
-        correct_count += 1
+        CORRECT_COUNT += 1
     print(f"Input: {inputs}, Expectation: {label}, Prediction: {prediction}")
 
-print(f"\nINFO: Accuracy: {correct_count / len(y) * 100:.2f}%")
+print(f"\nINFO: Accuracy: {CORRECT_COUNT / len(y) * 100:.2f}%")
 
 # Save the trained model.
 print(f"\nDEBUG: Saving trained model to '{model_file_path}' ...")

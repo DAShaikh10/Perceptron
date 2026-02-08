@@ -16,7 +16,7 @@ class Perceptron:
     Uses a heaviside step activation function.
 
     We use the following notation throughout the code:
-    - Inputs: x = [x1, x2, ..., xn]
+    - Inputs: x = [x0, x1, x2, ..., xn]
     - Weights: w = [w0, w1, w2, ..., wn] where w0 is the bias weight. We initialize the weights as a zero vector.
     - Weighted sum: z = w0 + w1*x1 + w2*x2 + ... + wn*xn
     - Output: y = activate(z)
@@ -24,7 +24,7 @@ class Perceptron:
 
     def __init__(self, input_size: int) -> None:
         # We start with random set of weights. For simplicity, we initialize them to zero here.
-        self.weights = np.zeros(input_size + 1)  # +1 for the bias weight
+        self.weights = np.zeros(input_size + 1, dtype=np.int8)  # +1 for the bias weight
 
         # We use the heaviside step activation function.
         self._activate = HeavisideStepActivation.activate
@@ -107,7 +107,7 @@ class Perceptron:
         with open(file_path, "rb") as file:
             self.weights = pickle.load(file)
 
-    def loss(self, predicted, actual) -> float:
+    def loss(self, predicted, actual) -> np.int8:
         """
         Simple difference loss function.
         `loss = actual - predicted`
@@ -122,7 +122,7 @@ class Perceptron:
 
         return actual - predicted
 
-    def predict(self, inputs) -> float:
+    def predict(self, inputs) -> np.int8:
         """
         Make a prediction for the given inputs.
         The prediction is made by calculating the weighted sum of inputs and applying the activation function.
@@ -136,7 +136,9 @@ class Perceptron:
         """
 
         # Calculate the weighted sum i.e. dot product of the inputs and weights.
-        weighted_sum = self.weights[0] + np.dot(self.weights[1:], inputs)
+        # For higher dimension matrices, matrix multiplication with transposed weights is better.
+        # Alternatively, we can write `np.dot(self.weights[1:], inputs)`.
+        weighted_sum = self.weights[0] + self.weights[1:] @ inputs
 
         # Apply the activation function to get the final prediction.
         return self._activate(weighted_sum)
@@ -159,7 +161,7 @@ class Perceptron:
         """
         Update the weights based on the prediction error.
         The logic is based on the Perceptron Learning Rule:
-        If error >= 0:
+        If error != 0:
             w0 = w0 + 1
             wi = wi + xi for all i
         Else:
@@ -173,7 +175,7 @@ class Perceptron:
             None
         """
 
-        if error >= 0:
+        if error > 0:
             # Update bias weight.
             # Bias weight update rule: w0 = w0 + 1. Since bias input is always 1.
             self.weights[0] += 1
@@ -204,7 +206,6 @@ class Perceptron:
             None
         """
 
-        num_features = self.weights[1:].shape[0]
         plt.clf()
 
         # Get weights.
