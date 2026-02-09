@@ -161,7 +161,7 @@ class Perceptron:
         """
         Update the weights based on the prediction error.
         The logic is based on the Perceptron Learning Rule:
-        If error != 0:
+        If error > 0:
             w0 = w0 + 1
             wi = wi + xi for all i
         Else:
