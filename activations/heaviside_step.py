@@ -16,7 +16,7 @@ class HeavisideStepActivation:
     """
 
     @staticmethod
-    def activate(x: np.int8) -> np.uint8:
+    def activate(x: np.int8) -> np.int8:
         """
         Applies the Heaviside step function.
 
@@ -24,7 +24,7 @@ class HeavisideStepActivation:
             x (np.int8): The input value (e.g., weighted sum).
 
         Returns:
-            np.uint8: 0 or 1.
+            np.int8: 0 or 1.
         """
 
-        return np.uint8(x >= 0)
+        return np.int8(x >= 0)

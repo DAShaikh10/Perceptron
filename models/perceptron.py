@@ -29,7 +29,7 @@ class Perceptron:
         # We use the heaviside step activation function.
         self._activate = HeavisideStepActivation.activate
 
-    def fit(self, train_data, labels, epochs: int = 10, verbose: bool = True) -> None:
+    def fit(self, train_data, labels, epochs = 10, verbose = True) -> None:
         """
         Train the perceptron using the Perceptron Learning Algorithm (PLA).
         We use the heaviside step activation function here.
